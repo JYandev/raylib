@@ -88,6 +88,11 @@
     #endif
 #endif
 
+// My custom inclusion to fix errors.
+#if !defined(RAYGUI_STANDALONE)
+    #include "raylib.h"
+#endif
+
 //----------------------------------------------------------------------------------
 // Defines and Macros
 //----------------------------------------------------------------------------------
