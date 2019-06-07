@@ -4,7 +4,7 @@
 # Output Path
 OUT_PATH = ../build
 # Buildroot Output Path
-BR_OUT_PATH = ../../buildroot/output
+BR_OUT_PATH = ../../amiibrOS-buildroot/output
 # Host Root File System
 HOST_ROOTFS = $(BR_OUT_PATH)/host
 # Target Root File System
@@ -67,6 +67,7 @@ raylib: $(OBJS)
   cp --update physac.h $(H_INSTALL_PATH)/physac.h
   cp --update raygui.h $(H_INSTALL_PATH)/raygui.h
   cp --update ricons.h $(H_INSTALL_PATH)/ricons.h
+  cp --update easings.h $(H_INSTALL_PATH)/easings.h
 
 # === Objects ===
 core.o : core.c raylib.h rlgl.h utils.h raymath.h camera.h gestures.h
