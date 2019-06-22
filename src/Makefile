@@ -54,13 +54,14 @@ OBJS = core.o \
 # === Main Make Command ===
 raylib: $(OBJS)
   mkdir -p $(OUT_PATH)
+  mkdir -p $(H_INSTALL_PATH)
   $(CC) -shared -o $(OUT_PATH)/libraylib.so.$(RAYLIB_VERSION) $(OBJS) \
     -Wl,-soname,libraylib.so.$(RAYLIB_API_VERSION) -L$(TARG_ROOTFS)/usr/lib \
     -lbrcmGLESv2 -lbrcmEGL -lpthread -lrt -lm -lbcm_host -ldl
   cd $(OUT_PATH) && ln -fsv libraylib.so.$(RAYLIB_VERSION) \
   libraylib.so.$(RAYLIB_API_VERSION)
   cd $(OUT_PATH) && ln -fsv libraylib.so.$(RAYLIB_API_VERSION) libraylib.so
-  # Copying raylib development files to $(RAYLIB_H_INSTALL_PATH).
+  # Copying raylib development files to $(H_INSTALL_PATH).
   cp --update raylib.h $(H_INSTALL_PATH)/raylib.h
   cp --update raymath.h $(H_INSTALL_PATH)/raymath.h
   cp --update rlgl.h $(H_INSTALL_PATH)/rlgl.h
