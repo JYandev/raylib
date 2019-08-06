@@ -125,12 +125,8 @@
 #ifndef RAYGUI_H
 #define RAYGUI_H
 
-<<<<<<< HEAD:src/raygui.h
-#define RAYGUI_VERSION  "2.0-dev"
-#define RAYGUI_RICONS_SUPPORT
-=======
 #define RAYGUI_VERSION  "2.5-dev"
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
+#define RAYGUI_RICONS_SUPPORT
 
 #if !defined(RAYGUI_STANDALONE)
     #include "raylib.h"
@@ -205,12 +201,8 @@
     } Rectangle;
 
     // Texture2D type
-<<<<<<< HEAD:src/raygui.h
-    typedef struct Texture2D { } Texture2D;
-=======
     // NOTE: It should be provided by user
     typedef struct Texture2D Texture2D;
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
 
     // Font type
     // NOTE: It should be provided by user
@@ -260,11 +252,7 @@ typedef enum {
     COLORPICKER,
     SCROLLBAR,
     RESERVED
-<<<<<<< HEAD:src/raygui.h
-} GuiControlStandard;
-=======
 } GuiControl;
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
 
 // Gui base properties for every control
 typedef enum {
@@ -317,20 +305,6 @@ typedef enum {
 // ProgressBar
 //typedef enum { } GuiProgressBarProperty;
 
-<<<<<<< HEAD:src/raygui.h
-// TextBox / TextBoxMulti / ValueBox / Spinner
-typedef enum {
-    MULTILINE_PADDING = 16,
-} GuiTextBoxProperty;
-
-typedef enum {
-    SELECT_BUTTON_WIDTH = 16,
-    SELECT_BUTTON_PADDING,
-    SELECT_BUTTON_BORDER_WIDTH
-} GuiSpinnerProperty;
-
-=======
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
 // CheckBox
 typedef enum {
     CHECK_TEXT_PADDING = 16
@@ -1078,11 +1052,7 @@ RAYGUIDEF Rectangle GuiScrollPanel(Rectangle bounds, Rectangle content, Vector2 
         DrawRectangle(horizontalScrollBar.x + horizontalScrollBar.width + 2,
                       verticalScrollBar.y + verticalScrollBar.height + 2,
                       horizontalScrollBarWidth - 4, verticalScrollBarWidth - 4,
-<<<<<<< HEAD:src/raygui.h
-                      Fade(GetColor(GuiGetStyle(LISTVIEW, TEXT + (state*3))), guiAlpha));
-=======
                       Fade(GetColor(GuiGetStyle(LISTVIEW, TEXT + (state * 3))), guiAlpha));
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
     }
 
     // Set scrollbar slider size back to the way it was before
@@ -2512,81 +2482,17 @@ RAYGUIDEF bool GuiTextBox(Rectangle bounds, char *text, int textSize, bool editM
     
     // Draw control
     //--------------------------------------------------------------------
-<<<<<<< HEAD:src/raygui.h
-
-    // TODO: Review this ugly hack... DROPDOWNBOX depends on GuiListElement() that uses DEFAULT_TEXT_ALIGNMENT
-    int tempTextAlign = GuiGetStyle(DEFAULT, TEXT_ALIGNMENT);
-    GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, GuiGetStyle(DROPDOWNBOX, TEXT_ALIGNMENT));
-
-    switch (state)
-    {
-        case GUI_STATE_NORMAL:
-        {
-            DrawRectangle(bounds.x, bounds.y, bounds.width, bounds.height, Fade(GetColor(GuiGetStyle(DROPDOWNBOX, BASE_COLOR_NORMAL)), guiAlpha));
-            DrawRectangleLinesEx(bounds, GuiGetStyle(DROPDOWNBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(DROPDOWNBOX, BORDER_COLOR_NORMAL)), guiAlpha));
-
-            GuiListElement((Rectangle){ bounds.x, bounds.y, bounds.width, bounds.height }, elementsPtrs[auxActive], false, false);
-        } break;
-        case GUI_STATE_FOCUSED:
-        {
-            GuiListElement((Rectangle){ bounds.x, bounds.y, bounds.width, bounds.height }, elementsPtrs[auxActive], false, editMode);
-        } break;
-        case GUI_STATE_PRESSED:
-        {
-            if (!editMode) GuiListElement((Rectangle){ bounds.x, bounds.y, bounds.width, bounds.height }, elementsPtrs[auxActive], true, true);
-            if (editMode)
-            {
-                GuiPanel(openBounds);
-
-                GuiListElement((Rectangle){ bounds.x, bounds.y, bounds.width, bounds.height }, elementsPtrs[auxActive], true, true);
-
-                for (int i = 0; i < elementsCount; i++)
-                {
-                    if (i == auxActive && editMode)
-                    {
-                        if (GuiListElement((Rectangle){ bounds.x, bounds.y + bounds.height*(i + 1) + GuiGetStyle(DROPDOWNBOX, INNER_PADDING),
-                                                        bounds.width, bounds.height - GuiGetStyle(DROPDOWNBOX, INNER_PADDING) },
-                                                        elementsPtrs[i], true, true) == false) pressed = true;
-                    }
-                    else
-                    {
-                        if (GuiListElement((Rectangle){ bounds.x, bounds.y + bounds.height*(i+1) + GuiGetStyle(DROPDOWNBOX, INNER_PADDING),
-                                                        bounds.width, bounds.height - GuiGetStyle(DROPDOWNBOX, INNER_PADDING) },
-                                                        elementsPtrs[i], false, true))
-                        {
-                            auxActive = i;
-                            pressed = true;
-                        }
-                    }
-                }
-            }
-        } break;
-        case GUI_STATE_DISABLED:
-=======
     DrawRectangleLinesEx(bounds, GuiGetStyle(TEXTBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(TEXTBOX, BORDER + (state*3))), guiAlpha));
     
     if (state == GUI_STATE_PRESSED)
     {
         DrawRectangle(bounds.x + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.y + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.width - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.height - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(TEXTBOX, BASE_COLOR_FOCUSED)), guiAlpha));
         if (editMode && active && ((framesCounter/TEXTEDIT_CURSOR_BLINK_FRAMES)%2 == 0) && selLength == 0) 
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
         {
             // Draw the blinking cursor
             DrawRectangle(cursorPos.x, cursorPos.y, 1, GuiGetStyle(DEFAULT, TEXT_SIZE), Fade(GetColor(GuiGetStyle(TEXTBOX, BORDER_COLOR_PRESSED)), guiAlpha));
         }
     }
-<<<<<<< HEAD:src/raygui.h
-
-    GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, tempTextAlign);
-
-    DrawTriangle((Vector2){ bounds.x + bounds.width - GuiGetStyle(DROPDOWNBOX, ARROW_RIGHT_PADDING), bounds.y + bounds.height/2 - 2 },
-                 (Vector2){ bounds.x + bounds.width - GuiGetStyle(DROPDOWNBOX, ARROW_RIGHT_PADDING) + 5, bounds.y + bounds.height/2 - 2 + 5 },
-                 (Vector2){ bounds.x + bounds.width - GuiGetStyle(DROPDOWNBOX, ARROW_RIGHT_PADDING) + 10, bounds.y + bounds.height/2 - 2 },
-                 Fade(GetColor(GuiGetStyle(DROPDOWNBOX, TEXT + (state*3))), guiAlpha));
-    //--------------------------------------------------------------------
-
-    *active = auxActive;
-=======
     else if (state == GUI_STATE_DISABLED)
     {
         DrawRectangle(bounds.x + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.y + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.width - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.height - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(TEXTBOX, BASE_COLOR_DISABLED)), guiAlpha));
@@ -2595,7 +2501,6 @@ RAYGUIDEF bool GuiTextBox(Rectangle bounds, char *text, int textSize, bool editM
     // Finally draw the text and selection
     DrawTextRecEx(guiFont, &text[textStartIndex], textRec, GuiGetStyle(DEFAULT, TEXT_SIZE), GuiGetStyle(DEFAULT, TEXT_SPACING), false, Fade(GetColor(GuiGetStyle(TEXTBOX, TEXT + (state*3))), guiAlpha), selStart, selLength, GetColor(GuiGetStyle(TEXTBOX, COLOR_SELECTED_FG)), GetColor(GuiGetStyle(TEXTBOX, COLOR_SELECTED_BG)));
     
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
     return pressed;
 }
 #else        // !RAYGUI_TEXTBOX_EXTENDED
@@ -2609,13 +2514,8 @@ RAYGUIDEF bool GuiSpinner(Rectangle bounds, int *value, int minValue, int maxVal
 
     Rectangle spinner = { bounds.x + GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH) + GuiGetStyle(SPINNER, SELECT_BUTTON_PADDING), bounds.y,
                           bounds.width - 2*(GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH) + GuiGetStyle(SPINNER, SELECT_BUTTON_PADDING)), bounds.height };
-<<<<<<< HEAD:src/raygui.h
-    Rectangle leftButtonBound = { bounds.x, bounds.y, GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH), bounds.height };
-    Rectangle rightButtonBound = { bounds.x + bounds.width - GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH), bounds.y, GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH), bounds.height };
-=======
     Rectangle leftButtonBound = { (float)bounds.x, (float)bounds.y, (float)GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH), (float)bounds.height };
     Rectangle rightButtonBound = { (float)bounds.x + bounds.width - GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH), (float)bounds.y, (float)GuiGetStyle(SPINNER, SELECT_BUTTON_WIDTH), (float)bounds.height };
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
 
     // Update control
     //--------------------------------------------------------------------
@@ -2752,14 +2652,9 @@ RAYGUIDEF bool GuiValueBox(Rectangle bounds, int *value, int minValue, int maxVa
 
     if (state == GUI_STATE_PRESSED)
     {
-<<<<<<< HEAD:src/raygui.h
-        DrawRectangle(bounds.x + GuiGetStyle(VALUEBOX, BORDER_WIDTH), bounds.y + GuiGetStyle(VALUEBOX, BORDER_WIDTH), bounds.width - 2*GuiGetStyle(VALUEBOX, BORDER_WIDTH), bounds.height - 2*GuiGetStyle(VALUEBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(VALUEBOX, BASE_COLOR_FOCUSED)), guiAlpha));
-        if (editMode && ((framesCounter/20)%2 == 0)) DrawRectangle(bounds.x + GetTextWidth(text)/2 + bounds.width/2 + 2, bounds.y + GuiGetStyle(VALUEBOX, INNER_PADDING), 1, bounds.height - GuiGetStyle(VALUEBOX, INNER_PADDING)*2, Fade(GetColor(GuiGetStyle(VALUEBOX, BORDER_COLOR_FOCUSED)), guiAlpha));
-=======
         DrawRectangle(bounds.x + GuiGetStyle(VALUEBOX, BORDER_WIDTH), bounds.y + GuiGetStyle(VALUEBOX, BORDER_WIDTH), bounds.width - 2*GuiGetStyle(VALUEBOX, BORDER_WIDTH), bounds.height - 2*GuiGetStyle(VALUEBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(VALUEBOX, BASE_COLOR_PRESSED)), guiAlpha));
         
         if (editMode && ((framesCounter/20)%2 == 0)) DrawRectangle(bounds.x + GetTextWidth(text)/2 + bounds.width/2 + 2, bounds.y + GuiGetStyle(VALUEBOX, INNER_PADDING), 1, bounds.height - GuiGetStyle(VALUEBOX, INNER_PADDING)*2, Fade(GetColor(GuiGetStyle(VALUEBOX, BORDER_COLOR_PRESSED)), guiAlpha));
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
     }
     else if (state == GUI_STATE_DISABLED)
     {
@@ -2855,11 +2750,7 @@ RAYGUIDEF bool GuiTextBox(Rectangle bounds, char *text, int textSize, bool editM
 
     if (state == GUI_STATE_PRESSED)
     {
-<<<<<<< HEAD:src/raygui.h
-        DrawRectangle(bounds.x + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.y + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.width - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.height - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(TEXTBOX, BASE_COLOR_FOCUSED)), guiAlpha));
-=======
         DrawRectangle(bounds.x + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.y + GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.width - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), bounds.height - 2*GuiGetStyle(TEXTBOX, BORDER_WIDTH), Fade(GetColor(GuiGetStyle(TEXTBOX, BASE_COLOR_PRESSED)), guiAlpha));
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
 
         // Draw blinking cursor
         if (editMode && ((framesCounter/20)%2 == 0)) DrawRectangle(bounds.x + GuiGetStyle(TEXTBOX, INNER_PADDING) + GetTextWidth(text) + 2 + bounds.width/2*GuiGetStyle(TEXTBOX, TEXT_ALIGNMENT), bounds.y + bounds.height/2 - GuiGetStyle(DEFAULT, TEXT_SIZE), 1, GuiGetStyle(DEFAULT, TEXT_SIZE)*2, Fade(GetColor(GuiGetStyle(TEXTBOX, BORDER_COLOR_PRESSED)), guiAlpha));
@@ -3153,15 +3044,9 @@ RAYGUIDEF float GuiSliderPro(Rectangle bounds, const char *text, float value, fl
     GuiDrawText(text, textBounds, GuiGetStyle(SLIDER, TEXT_ALIGNMENT), Fade(GetColor(GuiGetStyle(SLIDER, TEXT + (state*3))), guiAlpha));
 
     // TODO: Review showValue parameter, really ugly...
-<<<<<<< HEAD:src/raygui.h
-    if (showValue) GuiDrawText(TextFormat("%.02f", value), (Rectangle){ bounds.x + bounds.width + GuiGetStyle(SLIDER, TEXT_PADDING),
-                               bounds.y + bounds.height/2 - GuiGetStyle(DEFAULT, TEXT_SIZE)/2 + GuiGetStyle(SLIDER, INNER_PADDING),
-                               GuiGetStyle(DEFAULT, TEXT_SIZE), GuiGetStyle(DEFAULT, TEXT_SIZE) }, GUI_TEXT_ALIGN_LEFT,
-=======
     if (showValue) GuiDrawText(TextFormat("%.02f", value), RAYGUI_CLITERAL(Rectangle){ (float)bounds.x + bounds.width + GuiGetStyle(SLIDER, TEXT_PADDING),
                                (float)bounds.y + bounds.height/2 - GuiGetStyle(DEFAULT, TEXT_SIZE)/2 + GuiGetStyle(SLIDER, INNER_PADDING),
                                (float)GuiGetStyle(DEFAULT, TEXT_SIZE), (float)GuiGetStyle(DEFAULT, TEXT_SIZE) }, GUI_TEXT_ALIGN_LEFT,
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
                                Fade(GetColor(GuiGetStyle(SLIDER, TEXT + (state*3))), guiAlpha));
     //--------------------------------------------------------------------
 
@@ -4209,10 +4094,6 @@ RAYGUIDEF void GuiLoadStyle(const char *fileName)
 
             // Font loading is highly dependant on raylib API to load font data and image
             // TODO: Find some mechanism to support it in standalone mode
-<<<<<<< HEAD:src/raygui.h
-
-=======
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
 #if !defined(RAYGUI_STANDALONE)
             // Load custom font if available
             int fontDataSize = 0;
@@ -4343,27 +4224,12 @@ RAYGUIDEF void GuiLoadStyleDefault(void)
     GuiSetStyle(TEXTBOX, INNER_PADDING, 4);
     GuiSetStyle(TEXTBOX, TEXT_ALIGNMENT, GUI_TEXT_ALIGN_LEFT);
     GuiSetStyle(TEXTBOX, MULTILINE_PADDING, 5);
-<<<<<<< HEAD:src/raygui.h
-=======
     GuiSetStyle(TEXTBOX, COLOR_SELECTED_FG, 0xf0fffeff);
     GuiSetStyle(TEXTBOX, COLOR_SELECTED_BG, 0x839affe0);
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
     GuiSetStyle(VALUEBOX, TEXT_ALIGNMENT, GUI_TEXT_ALIGN_CENTER);
     GuiSetStyle(SPINNER, SELECT_BUTTON_WIDTH, 20);
     GuiSetStyle(SPINNER, SELECT_BUTTON_PADDING, 2);
     GuiSetStyle(SPINNER, SELECT_BUTTON_BORDER_WIDTH, 1);
-<<<<<<< HEAD:src/raygui.h
-    GuiSetStyle(COLORPICKER, COLOR_SELECTOR_SIZE, 6);
-    GuiSetStyle(COLORPICKER, BAR_WIDTH, 0x14);
-    GuiSetStyle(COLORPICKER, BAR_PADDING, 0xa);
-    GuiSetStyle(COLORPICKER, BAR_SELECTOR_HEIGHT, 6);
-    GuiSetStyle(COLORPICKER, BAR_SELECTOR_PADDING, 2);
-    GuiSetStyle(LISTVIEW, ELEMENTS_HEIGHT, 0x1e);
-    GuiSetStyle(LISTVIEW, ELEMENTS_PADDING, 2);
-    GuiSetStyle(LISTVIEW, SCROLLBAR_WIDTH, 10);
-    GuiSetStyle(LISTVIEW, SCROLLBAR_SIDE, SCROLLBAR_RIGHT_SIDE);
-=======
->>>>>>> 94abe0db88e421a0fc33303bfd50f1e289b102a3:examples/shapes/raygui.h
     GuiSetStyle(SCROLLBAR, BORDER_WIDTH, 0);
     GuiSetStyle(SCROLLBAR, ARROWS_VISIBLE, 0);
     GuiSetStyle(SCROLLBAR, INNER_PADDING, 0);
