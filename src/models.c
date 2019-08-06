@@ -89,7 +89,7 @@
 #if defined(SUPPORT_FILEFORMAT_OBJ)
 static Model LoadOBJ(const char *fileName);     // Load OBJ mesh data
 #endif
-#if defined(SUPPORT_FILEFORMAT_GLTF)
+#if defined(SUPPORT_FILEFORMAT_IQM)
 static Model LoadIQM(const char *fileName);     // Load IQM mesh data
 #endif
 #if defined(SUPPORT_FILEFORMAT_GLTF)
@@ -637,11 +637,11 @@ Model LoadModel(const char *fileName)
 #if defined(SUPPORT_FILEFORMAT_OBJ)
     if (IsFileExtension(fileName, ".obj")) model = LoadOBJ(fileName);
 #endif
-#if defined(SUPPORT_FILEFORMAT_GLTF)
-    if (IsFileExtension(fileName, ".gltf") || IsFileExtension(fileName, ".glb")) model = LoadGLTF(fileName);
-#endif
 #if defined(SUPPORT_FILEFORMAT_IQM)
     if (IsFileExtension(fileName, ".iqm")) model = LoadIQM(fileName);
+#endif
+#if defined(SUPPORT_FILEFORMAT_GLTF)
+    if (IsFileExtension(fileName, ".gltf") || IsFileExtension(fileName, ".glb")) model = LoadGLTF(fileName);
 #endif
 
     // Make sure model transform is set to identity matrix!
@@ -2431,6 +2431,8 @@ void DrawBillboardRec(Camera camera, Texture2D texture, Rectangle sourceRec, Vec
     Vector3 c = Vector3Add(center, p2);
     Vector3 d = Vector3Subtract(center, p1);
 
+    if (rlCheckBufferLimit(4)) rlglDraw();
+
     rlEnableTexture(texture.id);
 
     rlBegin(RL_QUADS);
@@ -2478,11 +2480,11 @@ bool CheckCollisionSpheres(Vector3 centerA, float radiusA, Vector3 centerB, floa
     // Simple way to check for collision, just checking distance between two points
     // Unfortunately, sqrtf() is a costly operation, so we avoid it with following solution
     /*
-    float dx = centerA.x - centerB.x;      // X distance between centers	
-    float dy = centerA.y - centerB.y;      // Y distance between centers	
-    float dz = centerA.z - centerB.z;      // Y distance between centers	
+    float dx = centerA.x - centerB.x;      // X distance between centers
+    float dy = centerA.y - centerB.y;      // Y distance between centers
+    float dz = centerA.z - centerB.z;      // Z distance between centers
 
-    float distance = sqrtf(dx*dx + dy*dy + dz*dz);  // Distance between centers	
+    float distance = sqrtf(dx*dx + dy*dy + dz*dz);  // Distance between centers
 
     if (distance <= (radiusA + radiusB)) collision = true;
     */
@@ -3278,16 +3280,7 @@ static int GetSizeBase64(char *input)
 
 static unsigned char *DecodeBase64(char *input, int *size)
 {
-    *size = 0;
-    for (int i = 0; input[4*i] != 0; i++)
-    {
-        if (input[4*i + 3] == '=')
-        {
-            if (input[4*i + 2] == '=') *size += 1;
-            else *size += 2;
-        }
-        else *size += 3;
-    }
+    *size = GetSizeBase64(input);
 
     unsigned char *buf = (unsigned char *)RL_MALLOC(*size);
     for (int i = 0; i < *size/3; i++)
@@ -3421,7 +3414,7 @@ static Model LoadGLTF(const char *fileName)
             
             if (data->materials[i].pbr_metallic_roughness.base_color_texture.texture)
             {
-                cgltf_image* img = data->materials[i].pbr_metallic_roughness.base_color_texture.texture->image;
+                cgltf_image *img = data->materials[i].pbr_metallic_roughness.base_color_texture.texture->image;
                 
                 if (img->uri) 
                 {
@@ -3443,9 +3436,11 @@ static Model LoadGLTF(const char *fileName)
                         else
                         {
                             int size;
-                            unsigned char *data = DecodeBase64(img->uri+i+1, &size);
+                            unsigned char *data = DecodeBase64(img->uri + i + 1, &size);
+                            
                             int w, h;
                             unsigned char *raw = stbi_load_from_memory(data, size, &w, &h, NULL, 4);
+                            
                             Image image = LoadImagePro(raw, w, h, UNCOMPRESSED_R8G8B8A8);
                             ImageColorTint(&image, tint);
                             texture = LoadTextureFromImage(image);
@@ -3474,12 +3469,13 @@ static Model LoadGLTF(const char *fileName)
                     
                     for (int i = 0; i < img->buffer_view->size; i++)
                     {
-                        data[i] = ((unsigned char*)img->buffer_view->buffer->data)[n];
+                        data[i] = ((unsigned char *)img->buffer_view->buffer->data)[n];
                         n += stride;
                     }
 
                     int w, h;
                     unsigned char *raw = stbi_load_from_memory(data, img->buffer_view->size, &w, &h, NULL, 4);
+                    
                     Image image = LoadImagePro(raw, w, h, UNCOMPRESSED_R8G8B8A8);
                     ImageColorTint(&image, tint);
                     texture = LoadTextureFromImage(image);
